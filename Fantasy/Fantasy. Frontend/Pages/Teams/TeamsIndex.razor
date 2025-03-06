@@ -1,0 +1,96 @@
+﻿@page "/teams"
+<!-- Define la ruta de la página como "/teams" -->
+
+@if (loading)  
+{
+    <!-- Muestra un componente de carga mientras se obtiene la información -->
+    <Loading />
+}
+else
+{
+    <!-- Tabla de MudBlazor que muestra los equipos -->
+    <MudTable Items="@Teams"
+              @ref="table"
+              ServerData="LoadListAsync"
+              Dense="true"
+              Hover="true"
+              Striped="true"
+              FixedHeader="true"
+              FixedFooter="true">
+
+        <!-- Encabezado con el título y botón para agregar un equipo -->
+        <ToolBarContent>
+            <div class="d-flex justify-content-between">
+                <!-- Título de la tabla -->
+                <MudText Typo="Typo.h6" Class="me-4">@Localizer["Teams"]</MudText>
+                
+                <!-- Botón para agregar un nuevo equipo -->
+                <MudButton Variant="Variant.Outlined"
+                           EndIcon="@Icons.Material.Filled.Add"
+                           Color="Color.Info" 
+                           OnClick="@(() => ShowModalAsync())">
+                    @Localizer["New"]
+                </MudButton>
+            </div>
+            <MudSpacer />
+            
+            <!-- Componente para filtrar los datos -->
+            <FilterComponent ApplyFilter="SetFilterValue" />
+        </ToolBarContent>
+
+        <!-- Definición de los encabezados de la tabla -->
+        <HeaderContent>
+            <MudTh>@Localizer["Team"]</MudTh>
+            <MudTh>@Localizer["Image"]</MudTh>
+            <MudTh>@Localizer["Country"]</MudTh>
+            <MudTh>@Localizer["Actions"]</MudTh>
+        </HeaderContent>
+
+        <!-- Plantilla para las filas de la tabla -->
+        <RowTemplate>
+            <MudTd>@context.Name</MudTd>  <!-- Nombre del equipo -->
+            
+            <MudTd>
+                <MudImage Src="@context.ImageFull" Width="90" Height="60" />
+            </MudTd>  <!-- Imagen del equipo -->
+
+            <MudTd>@context.Country!.Name</MudTd>  <!-- País del equipo -->
+
+            <MudTd>
+                <!-- Botón para editar un equipo -->
+                <MudTooltip Text="@Localizer["Edit"]">
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Warning"
+                               OnClick="@(() => ShowModalAsync(context.Id, true))">
+                        <MudIcon Icon="@Icons.Material.Filled.Edit" />
+                    </MudButton>
+                </MudTooltip>
+
+                <!-- Botón para eliminar un equipo -->
+                <MudTooltip Text="@Localizer["Delete"]">
+                    <MudButton Variant="Variant.Filled"
+                               Color="Color.Error"
+                               OnClick="@(() => DeleteAsync(@context))">
+                        <MudIcon Icon="@Icons.Material.Filled.Delete" />
+                    </MudButton>
+                </MudTooltip>
+            </MudTd>
+        </RowTemplate>
+
+        <!-- Contenido mostrado cuando no hay registros -->
+        <NoRecordsContent>
+            <MudText>@Localizer["NoRecords"]</MudText>
+        </NoRecordsContent>
+
+        <!-- Paginación de la tabla -->
+        <PagerContent>
+            <MudTablePager RowsPerPageString=@Localizer["RecordsNumber"]
+                           PageSizeOptions="pageSizeOptions"
+                           AllItemsText=@Localizer["All"]
+                           InfoFormat="@infoFormat" />
+        </PagerContent>
+
+    </MudTable>
+}
+
+

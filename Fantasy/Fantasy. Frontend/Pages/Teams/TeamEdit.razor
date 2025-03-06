@@ -1,0 +1,23 @@
+﻿@if (teamDTO is null)
+{
+    <!-- Muestra un componente de carga mientras se obtienen los datos del equipo -->
+    <Loading />
+}
+else
+{
+
+    <MudDialog>
+        <!-- Diálogo de MudBlazor que contiene el formulario de edición -->
+
+        <DialogContent>
+            <!-- Formulario de edición del equipo -->
+            <!-- Referencia al formulario -->
+            <!-- Modelo de datos a editar -->
+            <!-- Acción que se ejecuta al enviar el formulario -->
+            <!-- Acción para cerrar el diálogo y regresar -->
+
+            <TeamForm @ref="teamForm" TeamDTO="teamDTO" OnValidSubmit="EditAsync" ReturnAction="Return" />
+        </DialogContent>
+    </MudDialog>
+}
+
