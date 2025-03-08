@@ -1204,7 +1204,7 @@ namespace Fantasy.Shared.Resources {
         }
         
         /// <summary>
-        ///   Busca una cadena traducida similar a Fantasy.
+        ///   Busca una cadena traducida similar a Isla.
         /// </summary>
         public static string Title {
             get {
